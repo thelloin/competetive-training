@@ -4,7 +4,7 @@
 
 using namespace std;
 
-ofstream outFile{ "sort.out" };
+static long long int inversions{0};
 
 void merge(vector<int>& array, int l, int m, int r)
 {
@@ -36,6 +36,7 @@ void merge(vector<int>& array, int l, int m, int r)
       {
 	 array[k] = R[j];
 	 j++;
+	 inversions += n1 - i;
       }
       k++;
    }
@@ -56,15 +57,12 @@ void merge(vector<int>& array, int l, int m, int r)
       k++;
    }
 
-   // Write end indices and values to ofstream outFile
-   outFile << l+1 << " " << r+1 << " " << array[l] << " " << array[r] << endl;
 }
 
 void mergeSort(vector<int>& array, int l, int r)
 {
    if (l == r)
    {
-      outFile << r+1 << " " << r+1 << " " << array[r] << " " << array[r] << endl;
       return;
    }
 
@@ -78,7 +76,8 @@ void mergeSort(vector<int>& array, int l, int r)
 
 int main()
 {
-   ifstream inFile{ "sort.in" };
+   ifstream inFile{ "inversions.in" };
+   ofstream outFile{ "inversions.out" };
 
    int n;
    vector<int> array;
@@ -92,8 +91,6 @@ int main()
 
    mergeSort(array, 0, array.size()-1);
 
-   for (size_t i{0}; i < array.size()-1; ++i)
-      outFile << array[i] << " ";
-   outFile << array[array.size() - 1];
+   outFile << inversions;
    return 0;
 }
